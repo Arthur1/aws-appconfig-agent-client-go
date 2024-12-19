@@ -6,6 +6,9 @@ on:
       go-version:
         type: string
         required: true
+      go-cache:
+        type: boolean
+        default: false
 
 jobs:
   lint:
@@ -15,6 +18,7 @@ jobs:
       - uses: actions/setup-go@v5
         with:
           go-version: ${{ inputs.go-version }}
+          cache: ${{ inputs.go-cache }}
       - uses: golangci/golangci-lint-action@v6
         with:
           args: --timeout=10m
@@ -25,7 +29,7 @@ jobs:
       - uses: actions/setup-go@v5
         with:
           go-version: ${{ inputs.go-version }}
-          cache: false
+          cache: ${{ inputs.go-cache }}
       - run: |
           go install github.com/mfridman/tparse@latest
       - run: |
