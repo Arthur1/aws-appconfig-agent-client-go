@@ -9,9 +9,11 @@ import (
 	"net/http"
 
 	"github.com/go-faster/errors"
+	"github.com/go-faster/jx"
 
 	"github.com/ogen-go/ogen/conv"
 	ht "github.com/ogen-go/ogen/http"
+	"github.com/ogen-go/ogen/ogenerrors"
 	"github.com/ogen-go/ogen/uri"
 	"github.com/ogen-go/ogen/validate"
 )
@@ -116,14 +118,30 @@ func decodeGetConfigurationResponse(resp *http.Response) (res GetConfigurationRe
 			return res, errors.Wrap(err, "parse media type")
 		}
 		switch {
-		case ct == "application/text":
-			reader := resp.Body
-			b, err := io.ReadAll(reader)
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
 			if err != nil {
 				return res, err
 			}
+			d := jx.DecodeBytes(buf)
 
-			response := GetConfigurationBadRequest{Data: bytes.NewReader(b)}
+			var response GetConfigurationBadRequest
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
 			return &response, nil
 		default:
 			return res, validate.InvalidContentType(ct)
@@ -135,14 +153,30 @@ func decodeGetConfigurationResponse(resp *http.Response) (res GetConfigurationRe
 			return res, errors.Wrap(err, "parse media type")
 		}
 		switch {
-		case ct == "application/text":
-			reader := resp.Body
-			b, err := io.ReadAll(reader)
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
 			if err != nil {
 				return res, err
 			}
+			d := jx.DecodeBytes(buf)
 
-			response := GetConfigurationNotFound{Data: bytes.NewReader(b)}
+			var response GetConfigurationNotFound
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
 			return &response, nil
 		default:
 			return res, validate.InvalidContentType(ct)
@@ -154,7 +188,7 @@ func decodeGetConfigurationResponse(resp *http.Response) (res GetConfigurationRe
 			return res, errors.Wrap(err, "parse media type")
 		}
 		switch {
-		case ct == "application/text":
+		case ht.MatchContentType("*/*", ct):
 			reader := resp.Body
 			b, err := io.ReadAll(reader)
 			if err != nil {
@@ -162,7 +196,42 @@ func decodeGetConfigurationResponse(resp *http.Response) (res GetConfigurationRe
 			}
 
 			response := GetConfigurationInternalServerError{Data: bytes.NewReader(b)}
-			return &response, nil
+			var wrapper GetConfigurationInternalServerErrorHeaders
+			wrapper.Response = response
+			h := uri.NewHeaderDecoder(resp.Header)
+			// Parse "Content-Type" header.
+			{
+				cfg := uri.HeaderParameterDecodingConfig{
+					Name:    "Content-Type",
+					Explode: false,
+				}
+				if err := func() error {
+					if err := h.HasParam(cfg); err == nil {
+						if err := h.DecodeParam(cfg, func(d uri.Decoder) error {
+							val, err := d.DecodeValue()
+							if err != nil {
+								return err
+							}
+
+							c, err := conv.ToString(val)
+							if err != nil {
+								return err
+							}
+
+							wrapper.ContentType = c
+							return nil
+						}); err != nil {
+							return err
+						}
+					} else {
+						return validate.ErrFieldRequired
+					}
+					return nil
+				}(); err != nil {
+					return res, errors.Wrap(err, "parse Content-Type header")
+				}
+			}
+			return &wrapper, nil
 		default:
 			return res, validate.InvalidContentType(ct)
 		}
@@ -173,7 +242,7 @@ func decodeGetConfigurationResponse(resp *http.Response) (res GetConfigurationRe
 			return res, errors.Wrap(err, "parse media type")
 		}
 		switch {
-		case ct == "application/text":
+		case ht.MatchContentType("*/*", ct):
 			reader := resp.Body
 			b, err := io.ReadAll(reader)
 			if err != nil {
@@ -181,7 +250,42 @@ func decodeGetConfigurationResponse(resp *http.Response) (res GetConfigurationRe
 			}
 
 			response := GetConfigurationBadGateway{Data: bytes.NewReader(b)}
-			return &response, nil
+			var wrapper GetConfigurationBadGatewayHeaders
+			wrapper.Response = response
+			h := uri.NewHeaderDecoder(resp.Header)
+			// Parse "Content-Type" header.
+			{
+				cfg := uri.HeaderParameterDecodingConfig{
+					Name:    "Content-Type",
+					Explode: false,
+				}
+				if err := func() error {
+					if err := h.HasParam(cfg); err == nil {
+						if err := h.DecodeParam(cfg, func(d uri.Decoder) error {
+							val, err := d.DecodeValue()
+							if err != nil {
+								return err
+							}
+
+							c, err := conv.ToString(val)
+							if err != nil {
+								return err
+							}
+
+							wrapper.ContentType = c
+							return nil
+						}); err != nil {
+							return err
+						}
+					} else {
+						return validate.ErrFieldRequired
+					}
+					return nil
+				}(); err != nil {
+					return res, errors.Wrap(err, "parse Content-Type header")
+				}
+			}
+			return &wrapper, nil
 		default:
 			return res, validate.InvalidContentType(ct)
 		}
@@ -192,7 +296,7 @@ func decodeGetConfigurationResponse(resp *http.Response) (res GetConfigurationRe
 			return res, errors.Wrap(err, "parse media type")
 		}
 		switch {
-		case ct == "application/text":
+		case ht.MatchContentType("*/*", ct):
 			reader := resp.Body
 			b, err := io.ReadAll(reader)
 			if err != nil {
@@ -200,7 +304,42 @@ func decodeGetConfigurationResponse(resp *http.Response) (res GetConfigurationRe
 			}
 
 			response := GetConfigurationGatewayTimeout{Data: bytes.NewReader(b)}
-			return &response, nil
+			var wrapper GetConfigurationGatewayTimeoutHeaders
+			wrapper.Response = response
+			h := uri.NewHeaderDecoder(resp.Header)
+			// Parse "Content-Type" header.
+			{
+				cfg := uri.HeaderParameterDecodingConfig{
+					Name:    "Content-Type",
+					Explode: false,
+				}
+				if err := func() error {
+					if err := h.HasParam(cfg); err == nil {
+						if err := h.DecodeParam(cfg, func(d uri.Decoder) error {
+							val, err := d.DecodeValue()
+							if err != nil {
+								return err
+							}
+
+							c, err := conv.ToString(val)
+							if err != nil {
+								return err
+							}
+
+							wrapper.ContentType = c
+							return nil
+						}); err != nil {
+							return err
+						}
+					} else {
+						return validate.ErrFieldRequired
+					}
+					return nil
+				}(); err != nil {
+					return res, errors.Wrap(err, "parse Content-Type header")
+				}
+			}
+			return &wrapper, nil
 		default:
 			return res, validate.InvalidContentType(ct)
 		}

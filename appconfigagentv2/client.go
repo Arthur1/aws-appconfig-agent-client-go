@@ -219,24 +219,21 @@ func getBodyAndConfigurationVersionFromResponse(res apiv2.GetConfigurationRes) (
 		version, _ = tres.GetConfigurationVersion().Get()
 		return
 	case *apiv2.GetConfigurationBadRequest:
-		b, _ := io.ReadAll(tres.Data)
-		err = fmt.Errorf("BadRequestException: %s", b)
+		b, _ := tres.MarshalJSON()
+		err = fmt.Errorf("BadRequestException: %s", string(b))
 		return
 	case *apiv2.GetConfigurationNotFound:
-		b, _ := io.ReadAll(tres.Data)
-		err = fmt.Errorf("ResourceNotFoundException: %s", b)
+		b, _ := tres.MarshalJSON()
+		err = fmt.Errorf("ResourceNotFoundException: %s", string(b))
 		return
-	case *apiv2.GetConfigurationInternalServerError:
-		b, _ := io.ReadAll(tres.Data)
-		err = fmt.Errorf("InternalServerException: %s", b)
+	case *apiv2.GetConfigurationInternalServerErrorHeaders:
+		err = fmt.Errorf("InternalServerException")
 		return
-	case *apiv2.GetConfigurationBadGateway:
-		b, _ := io.ReadAll(tres.Data)
-		err = fmt.Errorf("BadGatewayException: %s", b)
+	case *apiv2.GetConfigurationBadGatewayHeaders:
+		err = fmt.Errorf("BadGatewayException")
 		return
-	case *apiv2.GetConfigurationGatewayTimeout:
-		b, _ := io.ReadAll(tres.Data)
-		err = fmt.Errorf("GatewayTimeoutException: %s", b)
+	case *apiv2.GetConfigurationGatewayTimeoutHeaders:
+		err = fmt.Errorf("GatewayTimeoutException")
 		return
 	}
 	err = fmt.Errorf("UnexpectedResponseStatusException")
