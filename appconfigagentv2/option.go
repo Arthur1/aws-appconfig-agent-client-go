@@ -1,4 +1,4 @@
-package appconfigagent
+package appconfigagentv2
 
 import (
 	"net/http"

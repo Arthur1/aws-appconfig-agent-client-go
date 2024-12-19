@@ -1,4 +1,4 @@
-package appconfigagent
+package appconfigagentv2
 
 import (
 	"context"
@@ -9,12 +9,12 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/Arthur1/aws-appconfig-agent-client-go/internal/api"
+	"github.com/Arthur1/aws-appconfig-agent-client-go/internal/apiv2"
 )
 
 // Client for AWS AppConfig Agent
 type Client struct {
-	apiClient   *api.Client
+	apiClient   *apiv2.Client
 	application string
 	environment string
 }
@@ -32,11 +32,11 @@ func NewClient(application, environment string, opts ...ClientOption) (*Client, 
 		opt.apply(&options)
 	}
 
-	apiClient, err := api.NewClient(
+	apiClient, err := apiv2.NewClient(
 		options.baseURL,
-		api.WithClient(options.httpClient),
-		api.WithTracerProvider(options.tracerProvider),
-		api.WithMeterProvider(options.meterProvider),
+		apiv2.WithClient(options.httpClient),
+		apiv2.WithTracerProvider(options.tracerProvider),
+		apiv2.WithMeterProvider(options.meterProvider),
 	)
 	if err != nil {
 		return nil, err
@@ -57,7 +57,7 @@ type GetConfigurationResult struct {
 //
 // configuration argument is a name or ID of AWS AppConfig Configuration.
 func (c *Client) GetConfiguration(ctx context.Context, configuration string) (*GetConfigurationResult, error) {
-	res, err := c.apiClient.GetConfiguration(ctx, api.GetConfigurationParams{
+	res, err := c.apiClient.GetConfiguration(ctx, apiv2.GetConfigurationParams{
 		Application:   c.application,
 		Environment:   c.environment,
 		Configuration: configuration,
@@ -103,7 +103,7 @@ func (c *Client) EvaluateFeatureFlag(ctx context.Context, configuration string, 
 		evalCtxHeaders = append(evalCtxHeaders, fmt.Sprintf("%s=%s", k, vs))
 	}
 
-	res, err := c.apiClient.GetConfiguration(ctx, api.GetConfigurationParams{
+	res, err := c.apiClient.GetConfiguration(ctx, apiv2.GetConfigurationParams{
 		Application:   c.application,
 		Environment:   c.environment,
 		Configuration: configuration,
@@ -152,7 +152,7 @@ func (c *Client) BulkEvaluateFeatureFlag(ctx context.Context, configuration stri
 		evalCtxHeaders = append(evalCtxHeaders, fmt.Sprintf("%s=%s", k, vs))
 	}
 
-	res, err := c.apiClient.GetConfiguration(ctx, api.GetConfigurationParams{
+	res, err := c.apiClient.GetConfiguration(ctx, apiv2.GetConfigurationParams{
 		Application:   c.application,
 		Environment:   c.environment,
 		Configuration: configuration,
@@ -212,29 +212,29 @@ func parseFeatureFlagEvaluation(m map[string]any) (*FeatureFlagEvaluation, error
 	return evaluation, nil
 }
 
-func getBodyAndConfigurationVersionFromResponse(res api.GetConfigurationRes) (body io.Reader, version string, err error) {
+func getBodyAndConfigurationVersionFromResponse(res apiv2.GetConfigurationRes) (body io.Reader, version string, err error) {
 	switch tres := res.(type) {
-	case *api.GetConfigurationOKHeaders:
+	case *apiv2.GetConfigurationOKHeaders:
 		body = tres.GetResponse().Data
 		version, _ = tres.GetConfigurationVersion().Get()
 		return
-	case *api.GetConfigurationBadRequest:
+	case *apiv2.GetConfigurationBadRequest:
 		b, _ := io.ReadAll(tres.Data)
 		err = fmt.Errorf("BadRequestException: %s", b)
 		return
-	case *api.GetConfigurationNotFound:
+	case *apiv2.GetConfigurationNotFound:
 		b, _ := io.ReadAll(tres.Data)
 		err = fmt.Errorf("ResourceNotFoundException: %s", b)
 		return
-	case *api.GetConfigurationInternalServerError:
+	case *apiv2.GetConfigurationInternalServerError:
 		b, _ := io.ReadAll(tres.Data)
 		err = fmt.Errorf("InternalServerException: %s", b)
 		return
-	case *api.GetConfigurationBadGateway:
+	case *apiv2.GetConfigurationBadGateway:
 		b, _ := io.ReadAll(tres.Data)
 		err = fmt.Errorf("BadGatewayException: %s", b)
 		return
-	case *api.GetConfigurationGatewayTimeout:
+	case *apiv2.GetConfigurationGatewayTimeout:
 		b, _ := io.ReadAll(tres.Data)
 		err = fmt.Errorf("GatewayTimeoutException: %s", b)
 		return

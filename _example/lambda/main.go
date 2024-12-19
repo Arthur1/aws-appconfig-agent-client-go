@@ -6,7 +6,7 @@ import (
 	"io"
 	"log"
 
-	"github.com/Arthur1/aws-appconfig-agent-client-go/appconfigagent"
+	"github.com/Arthur1/aws-appconfig-agent-client-go/appconfigagentv2"
 	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/caarlos0/env/v11"
 )
@@ -28,7 +28,7 @@ func handler(ctx context.Context) {
 	if err := env.Parse(&cfg); err != nil {
 		log.Fatal(err)
 	}
-	client, err := appconfigagent.NewClient(cfg.AppConfigApp, cfg.AppConfigEnv)
+	client, err := appconfigagentv2.NewClient(cfg.AppConfigApp, cfg.AppConfigEnv)
 	if err != nil {
 		log.Fatal(err)
 	}
