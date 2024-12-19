@@ -4,10 +4,22 @@ package apiv2
 
 import (
 	"io"
+
+	"github.com/go-faster/jx"
 )
 
-// The response error.
 // Ref: #/components/schemas/Error
+type Error map[string]jx.Raw
+
+func (s *Error) init() Error {
+	m := *s
+	if m == nil {
+		m = map[string]jx.Raw{}
+		*s = m
+	}
+	return m
+}
+
 type GetConfigurationBadGateway struct {
 	Data io.Reader
 }
@@ -22,28 +34,38 @@ func (s GetConfigurationBadGateway) Read(p []byte) (n int, err error) {
 	return s.Data.Read(p)
 }
 
-func (*GetConfigurationBadGateway) getConfigurationRes() {}
-
-// The response error.
-// Ref: #/components/schemas/Error
-type GetConfigurationBadRequest struct {
-	Data io.Reader
+// GetConfigurationBadGatewayHeaders wraps GetConfigurationBadGateway with response headers.
+type GetConfigurationBadGatewayHeaders struct {
+	ContentType string
+	Response    GetConfigurationBadGateway
 }
 
-// Read reads data from the Data reader.
-//
-// Kept to satisfy the io.Reader interface.
-func (s GetConfigurationBadRequest) Read(p []byte) (n int, err error) {
-	if s.Data == nil {
-		return 0, io.EOF
-	}
-	return s.Data.Read(p)
+// GetContentType returns the value of ContentType.
+func (s *GetConfigurationBadGatewayHeaders) GetContentType() string {
+	return s.ContentType
 }
+
+// GetResponse returns the value of Response.
+func (s *GetConfigurationBadGatewayHeaders) GetResponse() GetConfigurationBadGateway {
+	return s.Response
+}
+
+// SetContentType sets the value of ContentType.
+func (s *GetConfigurationBadGatewayHeaders) SetContentType(val string) {
+	s.ContentType = val
+}
+
+// SetResponse sets the value of Response.
+func (s *GetConfigurationBadGatewayHeaders) SetResponse(val GetConfigurationBadGateway) {
+	s.Response = val
+}
+
+func (*GetConfigurationBadGatewayHeaders) getConfigurationRes() {}
+
+type GetConfigurationBadRequest Error
 
 func (*GetConfigurationBadRequest) getConfigurationRes() {}
 
-// The response error.
-// Ref: #/components/schemas/Error
 type GetConfigurationGatewayTimeout struct {
 	Data io.Reader
 }
@@ -58,10 +80,34 @@ func (s GetConfigurationGatewayTimeout) Read(p []byte) (n int, err error) {
 	return s.Data.Read(p)
 }
 
-func (*GetConfigurationGatewayTimeout) getConfigurationRes() {}
+// GetConfigurationGatewayTimeoutHeaders wraps GetConfigurationGatewayTimeout with response headers.
+type GetConfigurationGatewayTimeoutHeaders struct {
+	ContentType string
+	Response    GetConfigurationGatewayTimeout
+}
 
-// The response error.
-// Ref: #/components/schemas/Error
+// GetContentType returns the value of ContentType.
+func (s *GetConfigurationGatewayTimeoutHeaders) GetContentType() string {
+	return s.ContentType
+}
+
+// GetResponse returns the value of Response.
+func (s *GetConfigurationGatewayTimeoutHeaders) GetResponse() GetConfigurationGatewayTimeout {
+	return s.Response
+}
+
+// SetContentType sets the value of ContentType.
+func (s *GetConfigurationGatewayTimeoutHeaders) SetContentType(val string) {
+	s.ContentType = val
+}
+
+// SetResponse sets the value of Response.
+func (s *GetConfigurationGatewayTimeoutHeaders) SetResponse(val GetConfigurationGatewayTimeout) {
+	s.Response = val
+}
+
+func (*GetConfigurationGatewayTimeoutHeaders) getConfigurationRes() {}
+
 type GetConfigurationInternalServerError struct {
 	Data io.Reader
 }
@@ -76,23 +122,35 @@ func (s GetConfigurationInternalServerError) Read(p []byte) (n int, err error) {
 	return s.Data.Read(p)
 }
 
-func (*GetConfigurationInternalServerError) getConfigurationRes() {}
-
-// The response error.
-// Ref: #/components/schemas/Error
-type GetConfigurationNotFound struct {
-	Data io.Reader
+// GetConfigurationInternalServerErrorHeaders wraps GetConfigurationInternalServerError with response headers.
+type GetConfigurationInternalServerErrorHeaders struct {
+	ContentType string
+	Response    GetConfigurationInternalServerError
 }
 
-// Read reads data from the Data reader.
-//
-// Kept to satisfy the io.Reader interface.
-func (s GetConfigurationNotFound) Read(p []byte) (n int, err error) {
-	if s.Data == nil {
-		return 0, io.EOF
-	}
-	return s.Data.Read(p)
+// GetContentType returns the value of ContentType.
+func (s *GetConfigurationInternalServerErrorHeaders) GetContentType() string {
+	return s.ContentType
 }
+
+// GetResponse returns the value of Response.
+func (s *GetConfigurationInternalServerErrorHeaders) GetResponse() GetConfigurationInternalServerError {
+	return s.Response
+}
+
+// SetContentType sets the value of ContentType.
+func (s *GetConfigurationInternalServerErrorHeaders) SetContentType(val string) {
+	s.ContentType = val
+}
+
+// SetResponse sets the value of Response.
+func (s *GetConfigurationInternalServerErrorHeaders) SetResponse(val GetConfigurationInternalServerError) {
+	s.Response = val
+}
+
+func (*GetConfigurationInternalServerErrorHeaders) getConfigurationRes() {}
+
+type GetConfigurationNotFound Error
 
 func (*GetConfigurationNotFound) getConfigurationRes() {}
 

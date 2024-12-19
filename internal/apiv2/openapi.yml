@@ -61,8 +61,7 @@ paths:
               schema:
                 type: string
           content:
-            # modified from original schema
-            "*/*":
+            "*/*": # modified from original schema
               schema:
                 type: string
                 format: binary
@@ -70,36 +69,37 @@ paths:
         400:
           description: BadRequestException
           content:
-            application/text:
+            "application/json": # modified from original schema
               schema:
                 $ref: "#/components/schemas/Error"
         404:
           description: ResourceNotFoundException
           content:
-            application/text:
+            "application/json": # modified from original schema
               schema:
                 $ref: "#/components/schemas/Error"
         500:
           description: InternalServerException
           content:
-            application/text:
-              schema:
-                $ref: "#/components/schemas/Error"
+            # modified from original schema
+            "*/*":
+              schema: {}
         502:
           description: BadGatewayException
           content:
-            application/text:
-              schema:
-                $ref: "#/components/schemas/Error"
+            # modified from original schema
+            "*/*":
+              schema: {}
         504:
           description: GatewayTimeoutException
           content:
-            application/text:
-              schema:
-                $ref: "#/components/schemas/Error"
+            # modified from original schema
+            "*/*":
+              schema: {}
 
 components:
   schemas:
     Error:
-      type: string
-      description: The response error
+      # modified from original schema
+      type: object
+      additionalProperties: true
