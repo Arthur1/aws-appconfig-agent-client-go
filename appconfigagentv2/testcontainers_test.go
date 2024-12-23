@@ -11,7 +11,7 @@ import (
 const appConfigAgentImage = "public.ecr.aws/aws-appconfig/aws-appconfig-agent:2.x"
 
 func setupAppConfigAgentTestcontainers(ctx context.Context) (testcontainers.Container, error) {
-	dataDir, err := filepath.Abs(filepath.Join(".", "_testdata"))
+	dataDir, err := filepath.Abs(filepath.Join(".", "testdata"))
 	if err != nil {
 		return nil, err
 	}
@@ -23,7 +23,7 @@ func setupAppConfigAgentTestcontainers(ctx context.Context) (testcontainers.Cont
 			FileMode:          0o700,
 		}},
 		Env: map[string]string{
-			"LOCAL_DEVELOPMENT_DIRECTORY": "/_testdata/",
+			"LOCAL_DEVELOPMENT_DIRECTORY": "/testdata/",
 		},
 		ExposedPorts: []string{"2772/tcp"},
 		WaitingFor: wait.ForAll(
