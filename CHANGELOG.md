@@ -1,5 +1,10 @@
 # Changelog
 
+## [v0.2.2](https://github.com/Arthur1/aws-appconfig-agent-client-go/compare/v0.2.1...v0.2.2) - 2024-12-23
+- hotfix: rename testdata directory because of prohibited file names in Go Modules by @Arthur1 in https://github.com/Arthur1/aws-appconfig-agent-client-go/pull/14
+- hotfix: make testdata an independent package for go get error problem by @Arthur1 in https://github.com/Arthur1/aws-appconfig-agent-client-go/pull/16
+- fix: retract v0.2.1 by @Arthur1 in https://github.com/Arthur1/aws-appconfig-agent-client-go/pull/17
+
 ## [v0.2.1](https://github.com/Arthur1/aws-appconfig-agent-client-go/compare/v0.2.0...v0.2.1) - 2024-12-20
 - test: add client tests with AppConfig Agent container by @Arthur1 in https://github.com/Arthur1/aws-appconfig-agent-client-go/pull/8
 - ci: cache appconfig agent image to avoid rate limit by @Arthur1 in https://github.com/Arthur1/aws-appconfig-agent-client-go/pull/11
