@@ -1,5 +1,10 @@
 # Changelog
 
+## [v0.2.3](https://github.com/Arthur1/aws-appconfig-agent-client-go/compare/v0.2.2...v0.2.3) - 2024-12-27
+- docs: refine godoc comments by @Arthur1 in https://github.com/Arthur1/aws-appconfig-agent-client-go/pull/18
+- chore: ignore whole files on Renovate by @Arthur1 in https://github.com/Arthur1/aws-appconfig-agent-client-go/pull/20
+- docs: add badges to README.md by @Arthur1 in https://github.com/Arthur1/aws-appconfig-agent-client-go/pull/21
+
 ## [v0.2.2](https://github.com/Arthur1/aws-appconfig-agent-client-go/compare/v0.2.1...v0.2.2) - 2024-12-23
 - hotfix: rename testdata directory because of prohibited file names in Go Modules by @Arthur1 in https://github.com/Arthur1/aws-appconfig-agent-client-go/pull/14
 - hotfix: make testdata an independent package for go get error problem by @Arthur1 in https://github.com/Arthur1/aws-appconfig-agent-client-go/pull/16
