@@ -74,7 +74,7 @@ func (c *Client) GetConfiguration(ctx context.Context, configuration string) (*G
 	}, nil
 }
 
-// Evaluated feacture flag value
+// Evaluated feature flag value
 type FeatureFlagEvaluation struct {
 	// Feature flag status
 	Enabled bool
@@ -86,6 +86,7 @@ type FeatureFlagEvaluation struct {
 
 // Result of EvaluateFeatureFlagResult
 type EvaluateFeatureFlagResult struct {
+	// Feature flag evaluation result
 	Evaluation *FeatureFlagEvaluation
 }
 
@@ -132,15 +133,15 @@ func (c *Client) EvaluateFeatureFlag(ctx context.Context, configuration string, 
 }
 
 // Result of BulkEvaluateFeatureFlag
-//
-// Evaluations is a map whose key is the flag key.
 type BulkEvaluateFeatureFlagResult struct {
+	// The map whose key is the flag key and value is evaluation result
 	Evaluations map[string]*FeatureFlagEvaluation
 }
 
 // BulkEvaluateFeatureFlag evaluates multiple flags in feature flag configuration.
 //
 // configuration argument is the name or ID of AWS AppConfig Configuration.
+// flagKeys argument is the set of flag keys to be evaluated, and if empty, all flags will be evaluated.
 // evalCtx argument is the context value for evaluating multi-variant flags.
 func (c *Client) BulkEvaluateFeatureFlag(ctx context.Context, configuration string, flagKeys []string, evalCtx map[string]any) (*BulkEvaluateFeatureFlagResult, error) {
 	evalCtxHeaders := make([]string, 0, len(evalCtx))
