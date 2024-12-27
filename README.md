@@ -1,5 +1,7 @@
 # AWS AppConfig Agent Client for Go
 
+![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/Arthur1/aws-appconfig-agent-client-go) [![Go Reference](https://pkg.go.dev/badge/github.com/Arthur1/aws-appconfig-agent-client-go.svg)](https://pkg.go.dev/github.com/Arthur1/aws-appconfig-agent-client-go) [![CI for main branch](https://github.com/Arthur1/aws-appconfig-agent-client-go/actions/workflows/on-push-main.yml/badge.svg)](https://github.com/Arthur1/aws-appconfig-agent-client-go/actions/workflows/on-push-main.yml)
+
 Go client for AWS AppConfig Agent.
 
 ## Requirements
