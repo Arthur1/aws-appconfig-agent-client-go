@@ -28,7 +28,6 @@ func setupAppConfigAgentTestcontainers(ctx context.Context) (testcontainers.Cont
 		ExposedPorts: []string{"2772/tcp"},
 		WaitingFor: wait.ForAll(
 			wait.ForListeningPort("2772/tcp"),
-			wait.ForLog("serving on localhost:2772"),
 		),
 	}
 	ctr, err := testcontainers.GenericContainer(ctx,
