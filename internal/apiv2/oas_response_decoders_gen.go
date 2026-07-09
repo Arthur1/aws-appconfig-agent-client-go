@@ -10,7 +10,6 @@ import (
 
 	"github.com/go-faster/errors"
 	"github.com/go-faster/jx"
-
 	"github.com/ogen-go/ogen/conv"
 	ht "github.com/ogen-go/ogen/http"
 	"github.com/ogen-go/ogen/ogenerrors"
@@ -100,7 +99,7 @@ func decodeGetConfigurationResponse(resp *http.Response) (res GetConfigurationRe
 							return err
 						}
 					} else {
-						return validate.ErrFieldRequired
+						return err
 					}
 					return nil
 				}(); err != nil {
@@ -224,7 +223,7 @@ func decodeGetConfigurationResponse(resp *http.Response) (res GetConfigurationRe
 							return err
 						}
 					} else {
-						return validate.ErrFieldRequired
+						return err
 					}
 					return nil
 				}(); err != nil {
@@ -278,7 +277,7 @@ func decodeGetConfigurationResponse(resp *http.Response) (res GetConfigurationRe
 							return err
 						}
 					} else {
-						return validate.ErrFieldRequired
+						return err
 					}
 					return nil
 				}(); err != nil {
@@ -332,7 +331,7 @@ func decodeGetConfigurationResponse(resp *http.Response) (res GetConfigurationRe
 							return err
 						}
 					} else {
-						return validate.ErrFieldRequired
+						return err
 					}
 					return nil
 				}(); err != nil {
@@ -344,5 +343,5 @@ func decodeGetConfigurationResponse(resp *http.Response) (res GetConfigurationRe
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
