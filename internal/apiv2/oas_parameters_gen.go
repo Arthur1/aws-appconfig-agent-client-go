@@ -4,16 +4,16 @@ package apiv2
 
 // GetConfigurationParams is parameters of getConfiguration operation.
 type GetConfigurationParams struct {
-	// The application for the configuration to get. Specify either the application name or the
-	// application ID.
+	// The application for the configuration to get. Specify either the application name or the application
+	// ID.
 	Application string
-	// The environment for the configuration to get. Specify either the environment name or the
-	// environment ID.
+	// The environment for the configuration to get. Specify either the environment name or the environment
+	// ID.
 	Environment string
 	// The configuration to get. Specify either the configuration name or the configuration ID.
 	Configuration string
 	// The flag names of feature flag configuration.
-	Flag []string
+	Flag []string `json:",omitempty"`
 	// The evaluation context for feature flag configuration.
-	Context []string
+	Context []string `json:",omitempty"`
 }
