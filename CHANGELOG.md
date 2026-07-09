@@ -1,5 +1,22 @@
 # Changelog
 
+## [v0.3.0](https://github.com/Arthur1/aws-appconfig-agent-client-go/compare/v0.2.3...v0.3.0) - 2026-07-09
+
+- chore: pinning github actions by @Arthur1 in https://github.com/Arthur1/aws-appconfig-agent-client-go/pull/36
+- chore: remove docker cache action by @Arthur1 in https://github.com/Arthur1/aws-appconfig-agent-client-go/pull/39
+- chore: bump go directive to 1.25 by @Arthur1 in https://github.com/Arthur1/aws-appconfig-agent-client-go/pull/38
+- Update actions/checkout action to v7 by @renovate[bot] in https://github.com/Arthur1/aws-appconfig-agent-client-go/pull/35
+- Update actions/create-github-app-token action to v3 by @renovate[bot] in https://github.com/Arthur1/aws-appconfig-agent-client-go/pull/34
+- Update actions/setup-go action to v6 by @renovate[bot] in https://github.com/Arthur1/aws-appconfig-agent-client-go/pull/30
+- Update module github.com/stretchr/testify to v1.11.1 by @renovate[bot] in https://github.com/Arthur1/aws-appconfig-agent-client-go/pull/29
+- chore: use tparse via go tool by @Arthur1 in https://github.com/Arthur1/aws-appconfig-agent-client-go/pull/40
+- chore: stop waiting for specific log pattern by @Arthur1 in https://github.com/Arthur1/aws-appconfig-agent-client-go/pull/41
+- docs: update minimum go version to 1.25 by @Arthur1 in https://github.com/Arthur1/aws-appconfig-agent-client-go/pull/42
+- Update opentelemetry-go monorepo to v1.44.0 by @renovate[bot] in https://github.com/Arthur1/aws-appconfig-agent-client-go/pull/23
+- Update module github.com/go-faster/jx to v1.2.0 by @renovate[bot] in https://github.com/Arthur1/aws-appconfig-agent-client-go/pull/32
+- Update module github.com/ogen-go/ogen to v1.22.0 by @renovate[bot] in https://github.com/Arthur1/aws-appconfig-agent-client-go/pull/24
+- Update module github.com/testcontainers/testcontainers-go to v0.43.0 by @renovate[bot] in https://github.com/Arthur1/aws-appconfig-agent-client-go/pull/22
+
 ## [v0.2.3](https://github.com/Arthur1/aws-appconfig-agent-client-go/compare/v0.2.2...v0.2.3) - 2024-12-27
 - docs: refine godoc comments by @Arthur1 in https://github.com/Arthur1/aws-appconfig-agent-client-go/pull/18
 - chore: ignore whole files on Renovate by @Arthur1 in https://github.com/Arthur1/aws-appconfig-agent-client-go/pull/20
