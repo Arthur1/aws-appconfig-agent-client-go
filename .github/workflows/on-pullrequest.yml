@@ -11,3 +11,4 @@ jobs:
     uses: ./.github/workflows/wf-test-go.yml
     with:
       go-version: ${{ matrix.version }}
+      go-cache: true
