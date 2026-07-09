@@ -6,7 +6,7 @@ Go client for AWS AppConfig Agent.
 
 ## Requirements
 
-Go 1.22 or higher is required. We support latest two major releases of Go.
+Go 1.25 or higher is required. We support latest two major releases of Go.
 
 Currently, the major version of AppConfig Agent must be v2.
 
