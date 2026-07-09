@@ -30,9 +30,6 @@ jobs:
         with:
           go-version: ${{ inputs.go-version }}
           cache: ${{ inputs.go-cache }}
-      - uses: ScribeMD/docker-cache@fb28c93772363301b8d0a6072ce850224b73f74e # 0.5.0
-        with:
-          key: docker-${{ runner.os }}-${{ hashFiles('appconfigagentv2/testcontainers_test.go') }}
       - run: |
           go install github.com/mfridman/tparse@latest
       - run: |
